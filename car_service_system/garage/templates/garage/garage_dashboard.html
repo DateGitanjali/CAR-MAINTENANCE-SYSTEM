@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Garage Dashboard{% endblock %}
+{% block content %}
+<h2>Welcome, {{ request.user.username }}</h2>
+
+{% if garage %}
+  <p><strong>Garage:</strong> {{ garage.name }} ({{ garage.city }})</p>
+  <a href="{% url 'garage_profile' %}" class="btn btn-secondary mb-3">Edit Profile</a>
+{% else %}
+  <a href="{% url 'garage_profile' %}" class="btn btn-primary">Create Garage Profile</a>
+{% endif %}
+
+<h3>Your Services</h3>
+<a href="{% url 'add_service' %}" class="btn btn-success mb-3">+ Add Service</a>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Service</th>
+      <th>Price</th>
+      <th>Duration (min)</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for s in services %}
+    <tr>
+      <td>{{ s.service_type.name }}</td>
+      <td>₹{{ s.price }}</td>
+      <td>{{ s.duration_minutes }}</td>
+      <td><a href="{% url 'delete_service' s.id %}" class="btn btn-sm btn-danger">Delete</a></td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4">No services added yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
