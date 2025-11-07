@@ -3,7 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Booking
 from .forms import BookingForm
-from garages.models import Garage
+from garage.models import Garage
+
 
 @login_required
 def book_service(request, garage_id=None):

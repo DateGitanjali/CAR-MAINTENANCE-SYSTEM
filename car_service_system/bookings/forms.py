@@ -1,7 +1,7 @@
 from django import forms
 from .models import Booking
 from customers.models import Vehicle
-from garages.models import Service, Garage
+from garage.models import ServiceType, Garage
 
 class BookingForm(forms.ModelForm):
     class Meta:

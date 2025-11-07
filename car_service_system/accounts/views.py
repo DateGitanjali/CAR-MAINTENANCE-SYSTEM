@@ -13,7 +13,7 @@ from .utils import set_user_otp, send_otp_email, verify_otp_code
 # Create your views here.
 
 def home(request):
-    return render(request, 'accounts/home.html')
+    return render(request, 'accounts/login.html')
 
 def user_login(request):
     if request.method == 'POST':
