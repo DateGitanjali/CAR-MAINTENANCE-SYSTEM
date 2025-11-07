@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+    <nav>
+        <ul>
+          <li><a href="{% url 'accounts:user_login' %}">Login</a></li>
+          <li><a href="{% url 'accounts:signup' %}">Sign Up</a></li>
+        </ul>
+
+    </nav>
+    <h1>Welcome to Car Service Booking System</h1>
+{% endblock %}

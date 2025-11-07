@@ -19,5 +19,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('garage.urls')),  # include all garage app routes
-]
+    path('garage/', include('garage.urls')),  
+    path('customers/', include('customers.urls')),
+    path('accounts/', include('accounts.urls')),
+    path('bookings/', include('bookings.urls')),
+    ]

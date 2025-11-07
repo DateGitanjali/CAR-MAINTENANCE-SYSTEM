@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard - Smart Garage{% endblock %}
+{% block content %}
+<div class="container my-4">
+    <h2 class="mb-4"><i class="bi bi-speedometer2"></i> My Dashboard</h2>
+
+    <!-- Vehicles Section -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5>Your Vehicles</h5>
+            <a href="{% url 'customers:add_vehicle' %}" class="btn btn-sm btn-primary">+ Add Vehicle</a>
+        </div>
+        <div class="card-body">
+            {% if vehicles %}
+                <div class="row">
+                    {% for v in vehicles %}
+                        <div class="col-md-4 mb-3">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ v.brand }} {{ v.model }}</h6>
+                                    <p><strong>Reg:</strong> {{ v.registration_number }}</p>
+                                    <p><strong>Fuel:</strong> {{ v.fuel_type }}</p>
+                                    <p><strong>Year:</strong> {{ v.year_of_manufacture }}</p>
+
+                                    <div class="mt-2">
+                                        <a href="{% url 'customers:edit_vehicle' v.id %}" class="btn btn-sm btn-outline-primary">Edit</a>
+                                        <a href="{% url 'customers:delete_vehicle' v.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-muted">No vehicles added yet.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Recent Bookings -->
+    <div class="card shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5>Recent Bookings</h5>
+            <a href="{% url 'customers:booking_history' %}" class="btn btn-sm btn-outline-secondary">View All</a>
+        </div>
+        <div class="card-body">
+            {% if bookings %}
+                <table class="table table-bordered align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Garage</th>
+                            <th>Service</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for b in bookings %}
+                        <tr>
+                            <td>{{ b.garage.name }}</td>
+                            <td>{{ b.service.name }}</td>
+                            <td>
+                                <span class="badge bg-{% if b.status == 'Completed' %}success{% elif b.status == 'Ready' %}info{% elif b.status == 'In Service' %}warning{% else %}secondary{% endif %}">
+                                    {{ b.status }}
+                                </span>
+                            </td>
+                            <td>{{ b.booked_on|date:"d M Y" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="text-muted">No recent bookings.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

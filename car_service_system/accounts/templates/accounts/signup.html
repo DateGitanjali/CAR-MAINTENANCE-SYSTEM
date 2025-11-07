@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if messages %}
+    <ul>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+    <h2>Sign Up</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form }}
+         {% if form.errors %}
+          <div style="color:red;">
+              <strong>Form errors:</strong>
+              {{ form.errors }}
+          </div>
+      {% endif %}
+        <button type="submit">Sign Up</button>
+    </form>
+    <script>
+      (function() {
+        var pwds = document.querySelectorAll('input[type="password"]');
+        pwds.forEach(function(pwd, idx){
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.textContent = 'Show';
+          btn.style.marginLeft = '6px';
+          btn.addEventListener('click', function(){
+            var isText = pwd.type === 'text';
+            pwd.type = isText ? 'password' : 'text';
+            btn.textContent = isText ? 'Show' : 'Hide';
+          });
+          pwd.insertAdjacentElement('afterend', btn);
+        });
+      })();
+    </script>
+{% endblock %}

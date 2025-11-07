@@ -40,7 +40,7 @@ class GarageService(models.Model):
     garage = models.ForeignKey(Garage, on_delete=models.CASCADE, related_name='services')
     service_type = models.ForeignKey(ServiceType, on_delete=models.SET_NULL, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    duration_minutes = models.PositiveIntegerField(default=60)
+    opening_hours = models.PositiveIntegerField(default=8)
     custom_text = models.CharField(max_length=255, blank=True)
 
     def __str__(self):

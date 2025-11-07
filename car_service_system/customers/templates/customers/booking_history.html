@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Booking History{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h3><i class="bi bi-clock-history"></i> Booking History</h3>
+
+    {% if bookings %}
+        <table class="table table-bordered table-striped align-middle mt-3">
+            <thead class="table-light">
+                <tr>
+                    <th>Garage</th>
+                    <th>Service</th>
+                    <th>Vehicle</th>
+                    <th>Status</th>
+                    <th>Booked On</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for b in bookings %}
+                <tr>
+                    <td>{{ b.garage.name }}</td>
+                    <td>{{ b.service.name }}</td>
+                    <td>{{ b.vehicle.brand }} {{ b.vehicle.model }}</td>
+                    <td>
+                        <span class="badge bg-{% if b.status == 'Completed' %}success{% elif b.status == 'Ready' %}info{% elif b.status == 'In Service' %}warning{% else %}secondary{% endif %}">
+                            {{ b.status }}
+                        </span>
+                    </td>
+                    <td>{{ b.booked_on|date:"d M Y" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alert alert-secondary mt-3">No bookings found.</div>
+    {% endif %}
+</div>
+{% endblock %}
