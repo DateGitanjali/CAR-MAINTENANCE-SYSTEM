@@ -1,11 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}{{ edit_mode|yesno:"Edit Vehicle,Add Vehicle" }}{% endblock %}
 
-{% block title %}Add Vehicle{% endblock %}
 {% block content %}
 <div class="container col-md-6 mt-5">
-    <div class="card shadow-sm">
+    <div class="card shadow-sm border-0">
         <div class="card-header bg-primary text-white">
-            <h5>Add a Vehicle</h5>
+            <h5 class="mb-0">{{ edit_mode|yesno:"Edit Vehicle,Add a Vehicle" }}</h5>
         </div>
+
         <div class="card-body">
             <form method="POST" novalidate>
                 {% csrf_token %}
@@ -14,13 +16,22 @@
                         <label class="form-label">{{ field.label }}</label>
                         {{ field }}
                         {% if field.errors %}
-                            <div class="text-danger small">{{ field.errors|striptags }}</div>
+                            <div class="text-danger small mt-1">{{ field.errors|striptags }}</div>
                         {% endif %}
                     </div>
                 {% endfor %}
-                <div class="text-end">
-                    <button type="submit" class="btn btn-success">Save</button>
-                    <a href="{% url 'customers:dashboard' %}" class="btn btn-outline-secondary">Cancel</a>
+
+                <div class="text-end mt-4">
+                    <button type="submit" class="btn btn-success">
+                        {% if edit_mode %}
+                            <i class="bi bi-save"></i> Update Vehicle
+                        {% else %}
+                            <i class="bi bi-plus-lg"></i> Add Vehicle
+                        {% endif %}
+                    </button>
+                    <a href="{% url 'customers:dashboard' %}" class="btn btn-outline-secondary ms-2">
+                        <i class="bi bi-x-circle"></i> Cancel
+                    </a>
                 </div>
             </form>
         </div>
