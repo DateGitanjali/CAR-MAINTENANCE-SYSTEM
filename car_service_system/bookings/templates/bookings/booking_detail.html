@@ -8,24 +8,47 @@
         </div>
         <div class="card-body">
             <table class="table">
-                <tr><th>Garage</th><td>{{ booking.garage.name }}</td></tr>
-                <tr><th>Service</th><td>{{ booking.service.name }}</td></tr>
-                <tr><th>Vehicle</th><td>{{ booking.vehicle.brand }} {{ booking.vehicle.model }} ({{ booking.vehicle.registration_number }})</td></tr>
-                <tr><th>Status</th>
+                <tr>
+                    <th>Garage</th>
+                    <td>{{ booking.garage.name }}</td>
+                </tr>
+                <tr>
+                    <th>Service</th>
+                    <td>{{ booking.service.name }}</td>
+                </tr>
+                <tr>
+                    <th>Vehicle</th>
+                    <td>{{ booking.vehicle.brand }} {{ booking.vehicle.model }} ({{ booking.vehicle.registration_number }})</td>
+                </tr>
+                <tr>
+                    <th>Status</th>
                     <td>
                         <span class="badge bg-{% if booking.status == 'Completed' %}success{% elif booking.status == 'Ready' %}info{% elif booking.status == 'In Service' %}warning{% else %}secondary{% endif %}">
                             {{ booking.status }}
                         </span>
                     </td>
                 </tr>
-                <tr><th>Appointment Date</th><td>{{ booking.appointment_date|date:"d M Y" }}</td></tr>
-                <tr><th>Booked On</th><td>{{ booking.booked_on|date:"d M Y, H:i" }}</td></tr>
+                <tr>
+                    <th>Appointment Date</th>
+                    <td>{{ booking.appointment_date|date:"d M Y" }}</td>
+                </tr>
+                <tr>
+                    <th>Booked On</th>
+                    <td>{{ booking.booked_on|date:"d M Y, H:i" }}</td>
+                </tr>
                 {% if booking.remarks %}
-                <tr><th>Remarks</th><td>{{ booking.remarks }}</td></tr>
+                <tr>
+                    <th>Remarks</th>
+                    <td>{{ booking.remarks }}</td>
+                </tr>
                 {% endif %}
             </table>
             <div class="text-end">
-                <a href="{% url 'bookings:booking_list' %}" class="btn btn-outline-secondary">Back to List</a>
+                <a href="{% url 'bookings:booking_detail' booking.id %}" class="btn btn-sm btn-outline-primary">View</a>
+
+                {% if booking.status == "Completed" %}
+                <a href="{% url 'feedback:add_feedback' booking.id %}" class="btn btn-sm btn-success ms-2">Leave Feedback</a>
+                {% endif %}
             </div>
         </div>
     </div>

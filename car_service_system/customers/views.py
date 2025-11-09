@@ -5,6 +5,8 @@ from .models import Vehicle
 from .forms import VehicleForm
 from garage.models import Garage
 from bookings.models import Booking
+from django.db.models import Q 
+
 
 @login_required
 def customer_dashboard(request):
@@ -32,17 +34,26 @@ def add_vehicle(request):
 
 
 @login_required
-def search_garages(request):
+ # make sure this import is at the top
+def search_garage(request):
     query = request.GET.get('q', '')
-    service_type = request.GET.get('service_type', '')
+    service_type = request.GET.get('service_type', '').strip()
     garages = Garage.objects.all()
 
+    # ✅ Filter by city or address (your model has these fields)
     if query:
-        garages = garages.filter(location__icontains=query)
-    if service_type:
-        garages = garages.filter(services__name__icontains=service_type)
+        garages = garages.filter(
+            Q(city__icontains=query) | Q(address__icontains=query)
+        )
 
-    return render(request, 'customers/search_garages.html', {
+    # ✅ Filter by service type name (via related models)
+    if service_type:
+        garages = garages.filter(
+            services__service_type__name__icontains=service_type
+        ).distinct()
+
+    # ✅ Render template (make sure the name matches your file)
+    return render(request, 'customers/search_garage.html', {
         'garages': garages,
         'query': query,
         'service_type': service_type
